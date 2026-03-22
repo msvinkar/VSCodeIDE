@@ -1,8 +1,8 @@
 replicaCount: 2
 image:
-  repository: yourregistry/springboot-login
+  repository: docker.io/library/springboot-login
   tag: latest
-  pullPolicy: IfNotPresent
+  pullPolicy: Always
 postgresql:
   image: postgres:15-alpine
   username: postgres
@@ -19,4 +19,4 @@ prometheusOperator:
 ingress:
   host: login.local
   tlsSecretName: login-tls-secret
-jwtSecret: ChangeThisToAStrongSecretAtDeployTime
+jwtSecret: SuperSecretJwtKey1234567890

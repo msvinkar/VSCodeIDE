@@ -16,16 +16,10 @@ spec:
     spec:
       containers:
         - name: backend
-          image: yourregistry/springboot-login:latest
-          imagePullPolicy: IfNotPresent
+          image: docker.io/library/springboot-login:latest
+          imagePullPolicy: Always
           ports:
             - containerPort: 8080
-          readinessProbe:
-            httpGet:
-              path: /
-              port: 8080
-            initialDelaySeconds: 30
-            periodSeconds: 10
           env:
             - name: SPRING_DATASOURCE_URL
               value: jdbc:postgresql://postgres:5432/react_login_db

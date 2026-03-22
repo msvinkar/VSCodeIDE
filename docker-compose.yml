@@ -27,13 +27,17 @@ services:
     environment:
       SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/react_login_db
       SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: postgres
       SPRING_JPA_HIBERNATE_DDL_AUTO: update
-      JWT_SECRET: /run/secrets/jwt_secret
+      APP_JWT_SECRET: SuperSecretJwtKey1234567890
+      REDIS_HOST: redis
+      REDIS_PORT: "6379"
     secrets:
       - postgres_password
       - jwt_secret
     ports:
       - "8080:8080"
+    restart: unless-stopped
 
   frontend:
     build:
@@ -49,3 +53,9 @@ services:
 
 volumes:
   postgres-data:
+
+secrets:
+  postgres_password:
+    file: ./secrets/postgres_password.txt
+  jwt_secret:
+    file: ./secrets/jwt_secret.txt

@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "react-login-platform.fullname" . }}-postgres
+  labels:
+    app: {{ include "react-login-platform.fullname" . }}-postgres
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: {{ include "react-login-platform.fullname" . }}-postgres
+  template:
+    metadata:
+      labels:
+        app: {{ include "react-login-platform.fullname" . }}-postgres
+    spec:
+      containers:
+        - name: postgres
+          image: {{ .Values.postgresql.image }}
+          env:
+            - name: POSTGRES_USER
+              value: {{ .Values.postgresql.username }}
+            - name: POSTGRES_PASSWORD
+              value: {{ .Values.postgresql.password }}
+            - name: POSTGRES_DB
+              value: {{ .Values.postgresql.database }}
+          ports:
+            - containerPort: 5432
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "react-login-platform.fullname" . }}-postgres
+spec:
+  selector:
+    app: {{ include "react-login-platform.fullname" . }}-postgres
+  ports:
+    - port: 5432
+      targetPort: 5432

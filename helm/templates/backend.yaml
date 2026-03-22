@@ -1,0 +1,48 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "react-login-platform.fullname" . }}-backend
+  labels:
+    app: {{ include "react-login-platform.fullname" . }}-backend
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ include "react-login-platform.fullname" . }}-backend
+  template:
+    metadata:
+      labels:
+        app: {{ include "react-login-platform.fullname" . }}-backend
+    spec:
+      containers:
+        - name: backend
+          image: {{ .Values.image.repository }}:{{ .Values.image.tag }}
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          env:
+            - name: SPRING_DATASOURCE_URL
+              value: jdbc:postgresql://{{ include "react-login-platform.fullname" . }}-pgbouncer:6432/{{ .Values.postgresql.database }}
+            - name: SPRING_DATASOURCE_USERNAME
+              value: {{ .Values.postgresql.username }}
+            - name: SPRING_DATASOURCE_PASSWORD
+              value: {{ .Values.postgresql.password }}
+            - name: REDIS_HOST
+              value: {{ include "react-login-platform.fullname" . }}-redis
+            - name: REDIS_PORT
+              value: "6379"
+            - name: APP_JWT_SECRET
+              value: {{ .Values.jwtSecret }}
+            - name: APP_JWT_EXPIRATION_MS
+              value: "3600000"
+          ports:
+            - containerPort: 8080
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "react-login-platform.fullname" . }}-backend
+spec:
+  selector:
+    app: {{ include "react-login-platform.fullname" . }}-backend
+  ports:
+    - port: 8080
+      targetPort: 8080

@@ -1,0 +1,6 @@
+apiVersion: v2
+name: react-login-platform
+description: Full-stack login app with auth service, postgres, redis, pgbouncer, monitoring, ingress and hpa
+type: application
+version: 0.1.0
+appVersion: "1.0.0"

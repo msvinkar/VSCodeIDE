@@ -13,6 +13,7 @@ export const registerUser = createAsyncThunk(
   async (payload, { rejectWithValue }) => {
     try {
       const apiUrl = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8080';
+      console.log('[DEBUG] registerUser apiUrl', apiUrl);
       const response = await fetch(`${apiUrl}/api/auth/register`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -36,6 +37,7 @@ export const loginUser = createAsyncThunk(
   async (payload, { rejectWithValue }) => {
     try {
       const apiUrl = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8080';
+      console.log('[DEBUG] loginUser apiUrl', apiUrl);
       const response = await fetch(`${apiUrl}/api/auth/login`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },

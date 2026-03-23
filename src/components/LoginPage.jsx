@@ -6,7 +6,7 @@ import './LoginPage.css';
 
 export default function LoginPage() {
   const dispatch = useDispatch();
-  const { isAuthenticated, currentUser, error, loading } = useSelector((state) => state.user);
+  const { isAuthenticated, currentUser, error, loading, registeredUsers } = useSelector((state) => state.user);
   
   const [activeTab, setActiveTab] = useState('login');
   
